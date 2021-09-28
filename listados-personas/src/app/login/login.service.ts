@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase/auth';
 
 @Injectable()
 export class LoginService{
@@ -9,18 +9,17 @@ export class LoginService{
 
     constructor(private router: Router){}
     
-    login(email:string, password:string){
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(
-                (                response: any) => {
-                    firebase.auth().currentUser.getIdToken().then(
-                        (                        token: any) => {
-                            this.token = token;
-                            this.router.navigate(['/']);
-                        }
-                    )
-                }
-            )
+    login(email: string, password: string) {
+        const auth = firebase.getAuth();
+        firebase
+            .signInWithEmailAndPassword(auth, email, password)
+            .then((_response) => {
+                auth.currentUser?.getIdToken().then((token) => {
+                        this.token = token;
+                        this.router.navigate(['/']);
+                    }
+                )
+            })
     }
 
     getIdToken(){
@@ -32,10 +31,11 @@ export class LoginService{
     }
 
     logout(){
-        this.auth().signOut().then(() => {
+        const auth = firebase.getAuth();
+        auth.signOut().then(() => {
             this.token = null;
             this.router.navigate(['login']);
-        }).catch((error: any) => console.log("error de logout"));
+        }).catch(_error => console.log("error de logout"));
     }
 }
 

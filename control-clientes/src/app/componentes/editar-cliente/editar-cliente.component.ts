@@ -13,7 +13,7 @@ import { ClienteServicio } from 'src/app/servicios/cliente.service';
 export class EditarClienteComponent implements OnInit {
 
   clientes!: Cliente[];
-  cliente: Cliente | null = {
+  cliente: Cliente |any= {
     nombre: '',
     apellido: '',
     email: '',
@@ -30,7 +30,28 @@ export class EditarClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.clientesServicio.getCliente(this.id).subscribe(cliente => {this.cliente = cliente});
+    this.clientesServicio.getCliente(this.id).subscribe((cliente) => {this.cliente = cliente});
+  }
+
+  guardar({value, valid}: NgForm){
+    if(!valid){
+      this.flashMessages.show("Por favor, llena el formulario correctamente",{
+      cssClass: 'alert-danger', timeout: 4000
+    });
+    }
+    else{
+      value.id = this.id; //seteamos la variable del modelo
+      //modificar cliente
+      this.clientesServicio.modificarCliente(value);
+      this.router.navigate(['/']);
+    }
+  }
+
+  eliminar(){
+    if(confirm('¿Seguro que desea eliminar cliente?')){
+      this.clientesServicio.eliminarCliente(this.cliente);
+      this.router.navigate(['/']);
+    }
   }
 
 }

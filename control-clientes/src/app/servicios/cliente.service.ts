@@ -6,12 +6,7 @@ import { Cliente } from "../modelo/cliente.model";
 
 @Injectable()
 export class ClienteServicio{
-    eliminarCliente(cliente: Cliente | null) {
-      throw new Error('Method not implemented.');
-    }
-    modificarCliente(value: any) {
-      throw new Error('Method not implemented.');
-    }
+  
     clienteColeccion: AngularFirestoreCollection<Cliente>;
     clienteDoc: AngularFirestoreDocument<Cliente> | undefined;
     clientes: Observable<Cliente[]> | undefined; //definimos un arreglo de tipo cliente que regresa un observable 
@@ -56,5 +51,15 @@ export class ClienteServicio{
             })
         );
         return this.cliente;
+    }
+
+    modificarCliente(cliente:Cliente){
+        this.clienteDoc = this.db.doc(`clientes/${cliente.id}`);
+        this.clienteDoc.update(cliente);
+    }
+
+    eliminarCliente(cliente:Cliente){
+        this.clienteDoc = this.db.doc(`clientes/${cliente.id}`);
+        this.clienteDoc.delete();
     }
 }

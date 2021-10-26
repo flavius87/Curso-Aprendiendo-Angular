@@ -63,19 +63,4 @@ export class ClientesComponent implements OnInit {
     this.botonCerrar.nativeElement.click();
   }
 
-  guardar({ value, valid }: NgForm) {
-    if (!valid)
-      this.flashMessages.show('Por favor llena el formulario correctamente', {
-        cssClass: 'alert-danger',
-        timeout: 4000,
-      });
-    else value.id = this.id; //seteamos la variable del modelo
-    this.clientesServicio.modificarCliente(value);
-    this.router.navigate(['/']);
-  }
-
-  eliminar() {
-    this.clientesServicio.eliminarCliente(this.cliente);
-    this.router.navigate(['/']);
-  }
 }

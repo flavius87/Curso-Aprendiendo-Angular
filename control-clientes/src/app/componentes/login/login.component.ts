@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
 
   login(){
     this.loginService.login(this.email, this.password)
-      .then( (_res): void => {
-        this.router.navigate(["/"]);
+      .then( res => {
+        this.router.navigate(['/']);
       })
       .catch(error => {
         this.flashMessages.show(error.message, {

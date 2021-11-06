@@ -7,7 +7,7 @@ import { map } from "rxjs/operators";
 @Injectable()
 export class AuthGuard implements CanActivate{
     constructor(private router:Router,
-                private afAuth:AngularFireAuth,
+                private afAuth:AngularFireAuth
                 ){}
     canActivate(): Observable<boolean> {
         return this.afAuth.authState.pipe(

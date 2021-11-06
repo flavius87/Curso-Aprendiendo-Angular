@@ -14,7 +14,7 @@ export class LoginService {
         return new Promise((resolve, reject) => {
             this.authService.signInWithEmailAndPassword(email, password)
                 .then((datos) => resolve(datos))
-                .catch((error) => reject(error));
+                .catch((error) => reject(error))
         });
     }
     
